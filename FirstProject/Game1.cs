@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame;
 
 namespace FirstProject;
 
@@ -14,18 +15,15 @@ public class Game1 : Game
     SpriteFont arial;
     Rectangle player1;
     Rectangle player2;
-    Rectangle ball;
-
-    Vector2 ballPosition;
-    Vector2 ballVelocity;
+    Ball ball;
 
     // Speed vars
     int p1Speed = 4;
     int p2Speed = 4;
 
     // Viewport dimensions
-    int vh;
-    int vw;
+    int vh = 480;
+    int vw = 800;
 
     // Score vars
     int p1Score, p2Score = 0;
@@ -37,27 +35,13 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-
-        _graphics.PreferredBackBufferWidth = 1200;
-        _graphics.PreferredBackBufferHeight = 720;
     }
 
     protected override void Initialize()
     {
-        // sets viewport height and width
-        vw = _graphics.PreferredBackBufferWidth;
-        vh = _graphics.PreferredBackBufferHeight;
-        
         // Sets correct sizes for all objects
         player1 = new Rectangle(vw/40, 3*vh / 8, vw/40, vh/4);
         player2 = new Rectangle(vw - (vw/40 + vw/40), 3*vh / 8, vw/40, vh/4);
-        ball = new Rectangle((vh/2) - (ball.Height / 2), (vh/2) - (ball.Height / 2), vw/40, vh/24);
-
-        // Corrects speed
-        p1Speed *= vw/800;
-        p2Speed *= vw/800;
-
-        NewBall();
 
         base.Initialize();
     }
@@ -69,6 +53,8 @@ public class Game1 : Game
         // TODO: use this.Content to load your game content here
         pixel = Content.Load<Texture2D>("pixel");
         arial = Content.Load<SpriteFont>("font");
+
+        ball = new Ball(pixel);
     }
 
     protected override void Update(GameTime gameTime)
@@ -77,12 +63,8 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
-
-        // Moves the ball
-        ballPosition += ballVelocity;
-
+        ball.Update();
         UpdateInput();
-        CheckCollisions();
         UpdateScore();
         
         base.Update(gameTime);
@@ -97,9 +79,11 @@ public class Game1 : Game
         // TODO: Add your drawing code here
         _spriteBatch.Draw(pixel, player1, Color.White);
         _spriteBatch.Draw(pixel, player2, Color.White);
-        _spriteBatch.Draw(pixel, ball, Color.White);
         _spriteBatch.DrawString(arial, Convert.ToString(p1Score), new Vector2((vw/2) - (vw/40), vw/8), Color.White);
         _spriteBatch.DrawString(arial, Convert.ToString(p2Score), new Vector2((vw/2) + (vw/40), vw/8), Color.White);
+        
+        // Loads ball
+        ball.Draw(_spriteBatch);
         
         _spriteBatch.End();
 
@@ -155,47 +139,19 @@ public class Game1 : Game
         }
     }
 
-    // Collision logic
-    void CheckCollisions()
-    {
-        ball.X = (int)ballPosition.X;
-        ball.Y = (int)ballPosition.Y;
-
-        // Checks for player collisions
-        if (ball.Intersects(player1) || ball.Intersects(player2))
-        {
-            ballVelocity.X *= -1;
-        }
-
-        // Checks for floor/roof collisions
-        if (ballPosition.Y < 0 || ballPosition.Y + ball.Height > vh)
-        {
-            ballVelocity.Y *= -1;
-        }
-    }
-
     // Updates score
     void UpdateScore()
     {
-        if (ballPosition.X <= 0)
+        if (ball.Rectangle.X <= 0)
         {
             p2Score++;
-            NewBall();
+            ball.Reset();
         }
-        else if (ballPosition.X >= (vw - ball.Width))
-        {
+        else if (ball.Rectangle.X >= 780)
+        {   
+            Console.WriteLine(_graphics.PreferredBackBufferWidth);
             p1Score++;
-            NewBall();
+            ball.Reset();
         }
-    }
-
-    // Spawns a new ball
-    void NewBall()
-    {
-        ballPosition.X = (vw/2) - (ball.Width / 2);
-        ballPosition.Y = (vh/2) - (ball.Height / 2);
-        ballVelocity.X = rng.Next(3, 6) * (vw/800);
-        ballVelocity.Y = rng.Next(3, 6) * (vw/800);
-        Console.WriteLine(ballVelocity.Y);
     }
 }
