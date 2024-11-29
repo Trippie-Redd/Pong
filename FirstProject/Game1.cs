@@ -13,22 +13,11 @@ public class Game1 : Game
 
     Texture2D pixel;
     SpriteFont arial;
-    Rectangle player1;
-    Rectangle player2;
+    Paddle player1;
+    Paddle player2;
+    Scoreboard p1Scoreboard;
+    Scoreboard p2Scoreboard;
     Ball ball;
-
-    // Speed vars
-    int p1Speed = 4;
-    int p2Speed = 4;
-
-    // Viewport dimensions
-    int vh = 480;
-    int vw = 800;
-
-    // Score vars
-    int p1Score, p2Score = 0;
-
-    Random rng = new Random();
 
     public Game1()
     {
@@ -39,10 +28,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // Sets correct sizes for all objects
-        player1 = new Rectangle(vw/40, 3*vh / 8, vw/40, vh/4);
-        player2 = new Rectangle(vw - (vw/40 + vw/40), 3*vh / 8, vw/40, vh/4);
-
         base.Initialize();
     }
 
@@ -55,6 +40,11 @@ public class Game1 : Game
         arial = Content.Load<SpriteFont>("font");
 
         ball = new Ball(pixel);
+        player1 = new Paddle(pixel, Keys.W, Keys.S, new Rectangle(30, 190, 20, 100));
+        p1Scoreboard = new Scoreboard(new Vector2(10, 20), arial, Color.White, "Player 1");
+
+        player2 = new Paddle(pixel, Keys.Up, Keys.Down, new Rectangle(750, 190, 20, 100));
+        p2Scoreboard = new Scoreboard(new Vector2(780, 20), arial, Color.White, "Player 2");
     }
 
     protected override void Update(GameTime gameTime)
@@ -62,11 +52,28 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
-        ball.Update();
-        UpdateInput();
-        UpdateScore();
         
+        ball.Update();
+        player1.Update();
+        player2.Update();
+
+        checkCollison();
+
+        UpdateScore();
+
+        player2.AI = true;
+        
+        if (player2.Rectangle.Y > ball.Rectangle.X)
+        {
+            player2.Down = false;
+            player2.Up = true;
+        }
+        else
+        {
+            player2.Up = false;
+            player2.Down = true;
+        }
+
         base.Update(gameTime);
     }
 
@@ -75,67 +82,29 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin();
-        
-        // TODO: Add your drawing code here
-        _spriteBatch.Draw(pixel, player1, Color.White);
-        _spriteBatch.Draw(pixel, player2, Color.White);
-        _spriteBatch.DrawString(arial, Convert.ToString(p1Score), new Vector2((vw/2) - (vw/40), vw/8), Color.White);
-        _spriteBatch.DrawString(arial, Convert.ToString(p2Score), new Vector2((vw/2) + (vw/40), vw/8), Color.White);
-        
-        // Loads ball
+
+        // Draws score
+        p1Scoreboard.Draw(_spriteBatch);
+        p2Scoreboard.Draw(_spriteBatch);
+
+        // Draws ball
         ball.Draw(_spriteBatch);
         
+        // Draws players
+        player1.Draw(_spriteBatch);
+        player2.Draw(_spriteBatch);
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
     }
 
-    // All input logic
-    public void UpdateInput()
+    // Checks for collison
+    void checkCollison()
     {
-        KeyboardState kState = Keyboard.GetState();
-
-        // Player 1 up
-        if (kState.IsKeyDown(Keys.W))
+        if (player1.Rectangle.Intersects(ball.Rectangle) || player2.Rectangle.Intersects(ball.Rectangle))
         {
-            if (player1.Y <= 0)
-            {
-                player1.Y = 0;
-            }
-            else
-                player1.Y -= p1Speed;
-        }
-
-        // Player 1 down
-        if (kState.IsKeyDown(Keys.S))
-        {
-            if (player1.Y >= (vh - player1.Height))
-            {
-                player1.Y = vh - player1.Height;
-            }
-            player1.Y += p1Speed;
-        }
-
-        // Player 2 up
-        if (kState.IsKeyDown(Keys.Up))
-        {
-            if (player2.Y <= 0)
-            {
-                player2.Y = 0;
-            }
-            else
-                player2.Y -= p2Speed;
-        }
-
-        // Player 2 down
-        if (kState.IsKeyDown(Keys.Down))
-        {
-            if (player2.Y >= (vh - player2.Height))
-            {
-                player2.Y = vh - player2.Height;
-            }
-            else
-                player2.Y += p2Speed;
+            ball.Bounce();
         }
     }
 
@@ -144,13 +113,12 @@ public class Game1 : Game
     {
         if (ball.Rectangle.X <= 0)
         {
-            p2Score++;
+            p2Scoreboard.UpdateScore(1);
             ball.Reset();
         }
         else if (ball.Rectangle.X >= 780)
         {   
-            Console.WriteLine(_graphics.PreferredBackBufferWidth);
-            p1Score++;
+            p1Scoreboard.UpdateScore(1);
             ball.Reset();
         }
     }

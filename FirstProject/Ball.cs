@@ -7,8 +7,9 @@ namespace MonoGame
     {
         private Texture2D texture;
         private Rectangle rectangle = new Rectangle(390, 230, 20, 20);
-        private Vector2 velocity = new Vector2(1, 1);
+        private Vector2 velocity = new Vector2(2, 2);
         private Color color = Color.White;
+        private Vector2 position;
 
         public Rectangle Rectangle
         {
@@ -22,15 +23,18 @@ namespace MonoGame
 
         public void Update()
         {
-            rectangle.X += (int)velocity.X;
-            rectangle.Y += (int)velocity.Y;
+            position.X = velocity.X; 
+            position.Y = velocity.Y;
+
+            rectangle.X += (int)position.X;
+            rectangle.Y += (int)position.Y;
 
             // Checks for player collisions
 
             // Checks for floor/roof collisions
             if (rectangle.Y < 0 || rectangle.Y + rectangle.Height >= 480)
             {
-                velocity.Y *= -1;
+                velocity.Y *= -1.05f;
             }
         }
 
@@ -44,8 +48,13 @@ namespace MonoGame
         {
             rectangle.X = 390;
             rectangle.Y = 230;
-            velocity.X = 2;
+            velocity.X = 3;
             velocity.Y = 2;
+        }
+
+        public void Bounce()
+        {
+            velocity.X *= -1.05f;
         }
     }
 }
