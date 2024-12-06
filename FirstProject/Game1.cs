@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +16,8 @@ public class Game1 : Game
     SpriteFont arial;
     Player player;
     Enemy enemy;
+
+    List
 
     public Game1()
     {
@@ -46,6 +49,13 @@ public class Game1 : Game
             Exit();
 
         player.Update();
+        
+        MouseState mState = Mouse.GetState();
+        if (mState.LeftButton == ButtonState.Pressed)
+        {
+            Bullet b = new Bullet(new Vector2(mState.X, mState.Y), new Vector2(player.Rectangle.X, player.Rectangle.Y), pixel);
+        }
+
         if (player.IsDead(enemy)) {Exit();}
 
         enemy.Update(new Vector2(player.Rectangle.X, player.Rectangle.Y));
