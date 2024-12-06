@@ -44,9 +44,7 @@ namespace MonoGame
         public void Update()
         {
             KeyboardState kState = Keyboard.GetState();
-            MouseState mState = Mouse.GetState();
 
-            Console.WriteLine(stamina);
             Run(kState);
             Move(kState);
         }

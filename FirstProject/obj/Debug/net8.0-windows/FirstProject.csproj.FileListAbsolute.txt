@@ -55,3 +55,4 @@ C:\Users\Admin\Documents\GitHub\Pong\FirstProject\obj\Debug\net8.0-windows\refin
 C:\Users\Admin\Documents\GitHub\Pong\FirstProject\obj\Debug\net8.0-windows\FirstProject.pdb
 C:\Users\Admin\Documents\GitHub\Pong\FirstProject\obj\Debug\net8.0-windows\FirstProject.genruntimeconfig.cache
 C:\Users\Admin\Documents\GitHub\Pong\FirstProject\obj\Debug\net8.0-windows\ref\FirstProject.dll
+D:\C#\MonoGame\FirstProject\FirstProject\obj\Debug\net8.0-windows\FirstProject.sourcelink.json

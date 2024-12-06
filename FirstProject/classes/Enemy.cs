@@ -9,7 +9,7 @@ namespace FirstProject
         private Color color = Color.Red;
         private Rectangle rectangle = new Rectangle(780, 460, 20, 20);
 
-        private int speed = 2;
+        private int speed = 1;
 
         public Rectangle Rectangle
         {

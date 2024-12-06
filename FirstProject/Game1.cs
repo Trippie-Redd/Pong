@@ -16,8 +16,9 @@ public class Game1 : Game
     SpriteFont arial;
     Player player;
     Enemy enemy;
+    Gun gun;
 
-    List
+    bool mouse_pressed = false;
 
     public Game1()
     {
@@ -41,6 +42,7 @@ public class Game1 : Game
 
         player = new Player(pixel);
         enemy = new Enemy(pixel);
+        gun = new Gun();
     }
 
     protected override void Update(GameTime gameTime)
@@ -49,14 +51,11 @@ public class Game1 : Game
             Exit();
 
         player.Update();
-        
-        MouseState mState = Mouse.GetState();
-        if (mState.LeftButton == ButtonState.Pressed)
-        {
-            Bullet b = new Bullet(new Vector2(mState.X, mState.Y), new Vector2(player.Rectangle.X, player.Rectangle.Y), pixel);
-        }
 
         if (player.IsDead(enemy)) {Exit();}
+
+        MouseInput();
+        gun.Update();
 
         enemy.Update(new Vector2(player.Rectangle.X, player.Rectangle.Y));
 
@@ -71,9 +70,27 @@ public class Game1 : Game
 
         player.Draw(_spriteBatch);
         enemy.Draw(_spriteBatch);
+        gun.Draw(_spriteBatch);
 
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void MouseInput()
+    {
+        MouseState mState = Mouse.GetState();
+        if (mState.LeftButton == ButtonState.Pressed)
+        {   
+            if (!mouse_pressed)
+                gun.Shoot(new Bullet(new Vector2(mState.X, mState.Y), new Vector2(player.Rectangle.X, player.Rectangle.Y), pixel));
+
+            mouse_pressed = true;
+        }
+
+        if (mState.LeftButton == ButtonState.Released)
+        {
+            mouse_pressed = false;
+        }
     }
 }

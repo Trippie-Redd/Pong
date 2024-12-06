@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\Pong\\FirstProject\\FirstProject.csproj": {}
+    "D:\\C#\\MonoGame\\FirstProject\\FirstProject\\FirstProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\Pong\\FirstProject\\FirstProject.csproj": {
+    "D:\\C#\\MonoGame\\FirstProject\\FirstProject\\FirstProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Pong\\FirstProject\\FirstProject.csproj",
+        "projectUniqueName": "D:\\C#\\MonoGame\\FirstProject\\FirstProject\\FirstProject.csproj",
         "projectName": "FirstProject",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Pong\\FirstProject\\FirstProject.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Pong\\FirstProject\\obj\\",
+        "projectPath": "D:\\C#\\MonoGame\\FirstProject\\FirstProject\\FirstProject.csproj",
+        "packagesPath": "C:\\Users\\Andrej\\.nuget\\packages\\",
+        "outputPath": "D:\\C#\\MonoGame\\FirstProject\\FirstProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Andrej\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -73,7 +71,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

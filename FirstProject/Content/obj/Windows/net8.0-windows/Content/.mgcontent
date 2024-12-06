@@ -4,8 +4,8 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Admin/Documents/GitHub/Pong/FirstProject/Content/font.spritefont</File>
-    <File>C:/Users/Admin/Documents/GitHub/Pong/FirstProject/Content/pixel.png</File>
+    <File>D:/C#/MonoGame/FirstProject/FirstProject/Content/font.spritefont</File>
+    <File>D:/C#/MonoGame/FirstProject/FirstProject/Content/pixel.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
